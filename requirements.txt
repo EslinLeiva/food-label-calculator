@@ -2,3 +2,5 @@ streamlit
 pytesseract
 Pillow
 opencv-python
+requests
+pyzbar
