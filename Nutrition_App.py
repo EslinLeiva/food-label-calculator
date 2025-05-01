@@ -10,8 +10,15 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 st.title("📸 Food Label Nutrition Calculator")
 st.markdown("Upload or take a picture of a food label, then enter how many grams you're consuming to calculate nutritional values.")
 
-# Upload or take photo safely
-image = st.camera_input("Take a picture of the food label") or st.file_uploader("Or upload a food label image", type=["jpg", "jpeg", "png"])
+# Let user choose how to provide the image
+upload_option = st.radio("How would you like to add the food label?", ["Take a picture", "Upload an image"])
+
+if upload_option == "Take a picture":
+    image = st.camera_input("Capture label image")
+elif upload_option == "Upload an image":
+    image = st.file_uploader("Choose a food label image", type=["jpg", "jpeg", "png"])
+else:
+    image = None
 
 if image is not None:
     try:
