@@ -2,9 +2,11 @@ import streamlit as st
 import pytesseract
 from PIL import Image, UnidentifiedImageError
 import io
+import platform
 
-#pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
+# Only set tesseract path on Windows
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 st.title("📸 Food Label Nutrition Calculator")
 st.markdown("Upload or take a picture of a food label, then enter how many grams you're consuming to calculate nutritional values.")
@@ -65,3 +67,4 @@ if image_data is not None:
     except Exception as e:
         st.error(f"⚠️ Error processing the image: {e}")
         st.stop()
+
