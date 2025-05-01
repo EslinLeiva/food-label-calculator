@@ -1,6 +1,6 @@
 import streamlit as st
 import pytesseract
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 import io
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -29,6 +29,8 @@ elif upload_option == "Upload an image":
 if image_data is not None:
     try:
         img = Image.open(io.BytesIO(image_data))
+        img.verify()  # verify that it's an image
+        img = Image.open(io.BytesIO(image_data))  # reopen after verify
         st.image(img, caption="Uploaded Image", use_column_width=True)
 
         # Extract text using OCR
@@ -59,6 +61,9 @@ if image_data is not None:
             for key, val in base_nutrition.items():
                 scaled = grams / 100 * val
                 st.write(f"{key}: {scaled:.2f}")
+    except UnidentifiedImageError:
+        st.error("⚠️ Unsupported or corrupted image file. Please try uploading a different JPG or PNG.")
+        st.stop()
     except Exception as e:
         st.error(f"⚠️ Error processing the image: {e}")
         st.stop()
