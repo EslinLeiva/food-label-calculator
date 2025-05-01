@@ -1,6 +1,7 @@
 import streamlit as st
 import pytesseract
 from PIL import Image
+import io
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -13,16 +14,21 @@ st.markdown("Upload or take a picture of a food label, then enter how many grams
 # Let user choose how to provide the image
 upload_option = st.radio("How would you like to add the food label?", ["Take a picture", "Upload an image"])
 
-if upload_option == "Take a picture":
-    image = st.camera_input("Capture label image")
-elif upload_option == "Upload an image":
-    image = st.file_uploader("Choose a food label image", type=["jpg", "jpeg", "png"])
-else:
-    image = None
+image_data = None
 
-if image is not None:
+if upload_option == "Take a picture":
+    camera_image = st.camera_input("Capture label image")
+    if camera_image:
+        image_data = camera_image.getvalue()
+
+elif upload_option == "Upload an image":
+    uploaded_image = st.file_uploader("Choose a food label image", type=["jpg", "jpeg", "png"])
+    if uploaded_image:
+        image_data = uploaded_image.read()
+
+if image_data is not None:
     try:
-        img = Image.open(image)
+        img = Image.open(io.BytesIO(image_data))
         st.image(img, caption="Uploaded Image", use_column_width=True)
 
         # Extract text using OCR
