@@ -22,7 +22,7 @@ if upload_option == "Take a picture":
         image_data = camera_image.getvalue()
 
 elif upload_option == "Upload an image":
-    uploaded_image = st.file_uploader("Choose a food label image", type=["jpg", "jpeg", "png"])
+    uploaded_image = st.file_uploader("Choose a food label image")  # Removed type restriction
     if uploaded_image:
         image_data = uploaded_image.read()
 
