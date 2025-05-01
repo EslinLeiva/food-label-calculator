@@ -3,10 +3,8 @@ import pytesseract
 from PIL import Image, UnidentifiedImageError
 import io
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+#pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-# Optional: Specify path to tesseract executable (Windows only)
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 st.title("📸 Food Label Nutrition Calculator")
 st.markdown("Upload or take a picture of a food label, then enter how many grams you're consuming to calculate nutritional values.")
@@ -31,7 +29,7 @@ if image_data is not None:
         img = Image.open(io.BytesIO(image_data))
         img.verify()  # verify that it's an image
         img = Image.open(io.BytesIO(image_data))  # reopen after verify
-        st.image(img, caption="Uploaded Image", use_column_width=True)
+        st.image(img, caption="Uploaded Image", use_container_width=True)
 
         # Extract text using OCR
         extracted_text = pytesseract.image_to_string(img)
