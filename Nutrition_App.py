@@ -60,5 +60,5 @@ if image_data is not None:
                 scaled = grams / 100 * val
                 st.write(f"{key}: {scaled:.2f}")
     except Exception as e:
-        st.error("⚠️ Error processing the image. Please upload a valid JPG or PNG file.")
+        st.error(f"⚠️ Error processing the image: {e}")
         st.stop()
